@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e1d8c2"
+    tools:context=".dq3Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lblTitle"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:text="@string/lblDQ3"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnOption1"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="215dp"
+            android:layout_height="96dp"
+            android:background="@drawable/btn_dq3_option_1"
+            android:textAlignment="viewStart" />
+
+        <Button
+            android:id="@+id/btnOption2"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="215dp"
+            android:layout_height="96dp"
+            android:background="@drawable/btn_dq3_option_2"
+            android:textAlignment="viewStart" />
+
+        <Button
+            android:id="@+id/btnOption3"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="215dp"
+            android:layout_height="96dp"
+            android:background="@drawable/btn_dq3_option_3"
+            android:textAlignment="viewStart" />
+
+        <Button
+            android:id="@+id/btnOption4"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="215dp"
+            android:layout_height="96dp"
+            android:background="@drawable/btn_dq3_option_4"
+            android:textAlignment="viewStart" />
+
+        <Button
+            android:id="@+id/btnOption5"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="215dp"
+            android:layout_height="96dp"
+            android:background="@drawable/btn_dq3_option_5"
+            android:textAlignment="viewStart" />
+
+        <ImageView
+            android:id="@+id/imgBannerAd"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="19dp"
+            android:contentDescription="@string/imgBannerAdDesc"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/advert_banner"
+            tools:layout_editor_absoluteY="556dp" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

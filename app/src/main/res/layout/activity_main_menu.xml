@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".mainMenuActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e1d8c2"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnDailyQuiz"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:background="@drawable/daily_quiz_button"
+            android:onClick="navigateDailyQuiz" />
+
+        <Button
+            android:id="@+id/btnDiary"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:background="@drawable/diary_button" />
+
+        <Button
+            android:id="@+id/btnTrack"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:background="@drawable/track_button" />
+
+        <Button
+            android:id="@+id/btnHelplines"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:background="@drawable/helpline_button"
+            android:onClick="navigateHelplines" />
+
+        <Button
+            android:id="@+id/btnOptions"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:background="@drawable/options_button" />
+
+        <ImageView
+            android:id="@+id/imgBannerAd"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:contentDescription="@string/imgBannerAdDesc"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/advert_banner" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

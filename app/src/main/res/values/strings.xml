@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MoodMeter</string>
+    <string name="imgBannerAdDesc">Banner Advert</string>
+    <string name="lblDQ1">How are you feeling today?</string>
+    <string name="lblDQ2">How many hours of sleep did you get during the previous night?</string>
+    <string name="lblDQ3">Do you feel like you\'ve done too much work or not enough?</string>
+    <string name="lblDQ4">How healthy have you been eating?</string>
+    <string name="lblDQ5">How many minutes of exercise have you done today?</string>
+    <string name="lblDQ6">How sociable have you felt today?</string>
+    <string name="lblHelplines">Helplines</string>
+    <string name="lblHelplinesBody">Samaritans\nConfidential support for people experiencing feelings of distress or despair.\nPhone: 116 123 (free 24-hour helpline)\nWebsite: www.samaritans.org.uk\n\nYoungMinds\nInformation on child and adolescent mental health. Services for parents and professionals.\nPhone: Parents\' helpline 0808 802 5544 (Mon to Fri, 9.30am to 4pm)\nWebsite: www.youngminds.org.uk\n\nAnxiety UK\nCharity providing support if you\'ve been diagnosed with an anxiety condition.\nPhone: 03444 775 774 (Mon to Fri, 9.30am to 5.30pm)\nWebsite: www.anxietyuk.org.uk\n\nCALM\nCALM is the Campaign Against Living Miserably, for men aged 15 to 35.\nPhone: 0800 58 58 58 (daily, 5pm to midnight)\nWebsite: www.thecalmzone.net\n\nMental Health Foundation\nProvides information and support for anyone with mental health problems or learning disabilities.\nWebsite: www.mentalhealth.org.uk\n\nMind\nPromotes the views and needs of people with mental health problems.\nPhone: 0300 123 3393 (Mon to Fri, 9am to 6pm)\nWebsite: www.mind.org.uk\n\nPAPYRUS\nYoung suicide prevention society.\nPhone: 0800 068 4141 (Mon to Fri,10am to 5pm &#038; 7 to 10pm. Weekends 2 to 5pm)\nWebsite: www.papyrus-uk.org\n</string>
+</resources>
