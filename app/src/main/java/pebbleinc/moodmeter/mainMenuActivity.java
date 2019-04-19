@@ -19,42 +19,35 @@ public class mainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
-        databaseHelper dbHelper;
-        dbHelper = new databaseHelper(this);
     }
 
     //Navigates to the Daily Quiz (Question 1) page
     public void navigateDailyQuiz(View view) {
         Intent gotoDailyQuiz = new Intent(this, dq1Activity.class);
         startActivity(gotoDailyQuiz);
+    }
 
-        databaseHelper dbHelp;
+    //Navigates to the New Diary Entry page
+    public void navigateNewDiaryEntry(View view) {
+        Intent gotoNewDiaryEntry = new Intent(this, newDiaryEntryActivity.class);
+        startActivity(gotoNewDiaryEntry);
+    }
 
-        dbHelp = new databaseHelper(this);
-        dbHelp.deleteDailyQuizRecord(1);
-        dbHelp.close();
-
-        dbHelp = new databaseHelper(this);
-        dbHelp.deleteDiaryEntryRecord(1);
-        dbHelp.close();
+    //Navigates to the Track page
+    public void navigateTrack(View view) {
+        Intent gotoTrack = new Intent(this, trackActivity.class);
+        startActivity(gotoTrack);
     }
 
     //Navigates to the Helplines page
     public void navigateHelplines(View view) {
         Intent gotoHelplines = new Intent(this, helplinesActivity.class);
         startActivity(gotoHelplines);
+    }
 
-        databaseHelper dbHelp;
-
-        dbHelp = new databaseHelper(this);
-        Cursor quizzes = dbHelp.getDailyQuizRecord(-1);
-        dbHelp.printDailyQuizRecords(quizzes);
-        dbHelp.close();
-
-        dbHelp = new databaseHelper(this);
-        Cursor diary = dbHelp.getDiaryEntryRecord(-1);
-        dbHelp.printDiaryEntryRecords(diary);
-        dbHelp.close();
+    //Navigates to the Options page
+    public void navigateOptions(View view) {
+        Intent gotoOptions = new Intent(this, optionsActivity.class);
+        startActivity(gotoOptions);
     }
 }

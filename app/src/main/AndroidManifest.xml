@@ -16,13 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".dq1Activity"/>
-        <activity android:name=".dq2Activity"/>
-        <activity android:name=".dq3Activity"/>
-        <activity android:name=".dq4Activity"/>
-        <activity android:name=".dq5Activity"/>
-        <activity android:name=".dq6Activity"/>
-        <activity android:name=".helplinesActivity"/>
+        <activity android:name=".dq1Activity" />
+        <activity android:name=".dq2Activity" />
+        <activity android:name=".dq3Activity" />
+        <activity android:name=".dq4Activity" />
+        <activity android:name=".dq5Activity" />
+        <activity android:name=".dq6Activity" />
+        <activity android:name=".helplinesActivity" />
+        <activity android:name=".diaryActivity" />
+        <activity android:name=".trackActivity" />
+        <activity android:name=".optionsActivity" />
+        <activity android:name=".newDiaryEntryActivity"/>
     </application>
-
 </manifest>
