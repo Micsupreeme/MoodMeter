@@ -21,25 +21,26 @@ import pebbleinc.moodmeter.databaseContract.tableProfile;
  * Use an ID to specify a single record in a table, or use "-1" to specify all records in a table
  *
  * Methods available:
-     * Profile table:
-     * - INSERT
-     * - GET
-     * - UPDATE
-     * - DELETE
-     * - PRINT
-     *
-     * Diary Entry table:
-     * - INSERT
-     * - GET
-     * - DELETE
-     * - PRINT
-     *
-     * Daily Quiz table:
-     * - INSERT
-     * - GET
-     * - UPDATE
-     * - DELETE
-     * - PRINT*/
+ * Profile table:
+ * - INSERT
+ * - GET (by ID)
+ * - UPDATE
+ * - DELETE
+ * - PRINT
+ *
+ * Diary Entry table:
+ * - INSERT
+ * - GET (by ID)
+ * - DELETE
+ * - PRINT
+ *
+ * Daily Quiz table:
+ * - INSERT
+ * - GET (by ID)
+ * - GET (by DATE)
+ * - UPDATE
+ * - DELETE
+ * - PRINT*/
 
 public class databaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
@@ -48,25 +49,25 @@ public class databaseHelper extends SQLiteOpenHelper {
     /**SQL CREATE scripts*/
     private static final String SQL_CREATE_DAILY_QUIZ =
             "CREATE TABLE " + tableDailyQuiz.TABLE_NAME + " (" +
-            tableDailyQuiz.COLUMN_NAME_DQ_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            tableDailyQuiz.COLUMN_NAME_DQ_DATE + " TEXT, " +
-            tableDailyQuiz.COLUMN_NAME_DQ_Q1 + " INTEGER, " +
-            tableDailyQuiz.COLUMN_NAME_DQ_Q2 + " INTEGER, " +
-            tableDailyQuiz.COLUMN_NAME_DQ_Q3 + " INTEGER, " +
-            tableDailyQuiz.COLUMN_NAME_DQ_Q4 + " INTEGER, " +
-            tableDailyQuiz.COLUMN_NAME_DQ_Q5 + " INTEGER, " +
-            tableDailyQuiz.COLUMN_NAME_DQ_Q6 + " INTEGER)";
+                    tableDailyQuiz.COLUMN_NAME_DQ_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    tableDailyQuiz.COLUMN_NAME_DQ_DATE + " TEXT, " +
+                    tableDailyQuiz.COLUMN_NAME_DQ_Q1 + " INTEGER, " +
+                    tableDailyQuiz.COLUMN_NAME_DQ_Q2 + " INTEGER, " +
+                    tableDailyQuiz.COLUMN_NAME_DQ_Q3 + " INTEGER, " +
+                    tableDailyQuiz.COLUMN_NAME_DQ_Q4 + " INTEGER, " +
+                    tableDailyQuiz.COLUMN_NAME_DQ_Q5 + " INTEGER, " +
+                    tableDailyQuiz.COLUMN_NAME_DQ_Q6 + " INTEGER)";
     private static final String SQL_CREATE_DIARY_ENTRY =
             "CREATE TABLE " + tableDiaryEntry.TABLE_NAME + " (" +
-            tableDiaryEntry.COLUMN_NAME_DE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            tableDiaryEntry.COLUMN_NAME_DE_DATETIME + " TEXT, " +
-            tableDiaryEntry.COLUMN_NAME_DE_BODY + " TEXT)";
+                    tableDiaryEntry.COLUMN_NAME_DE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    tableDiaryEntry.COLUMN_NAME_DE_DATETIME + " TEXT, " +
+                    tableDiaryEntry.COLUMN_NAME_DE_BODY + " TEXT)";
     private static final String SQL_CREATE_PROFILE =
             "CREATE TABLE " + tableProfile.TABLE_NAME + " (" +
-            tableProfile.COLUMN_NAME_P_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            tableProfile.COLUMN_NAME_P_NAME + " TEXT, " +
-            tableProfile.COLUMN_NAME_P_MY_KEY + " TEXT, " +
-            tableProfile.COLUMN_NAME_P_THEME + " INTEGER)";
+                    tableProfile.COLUMN_NAME_P_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    tableProfile.COLUMN_NAME_P_NAME + " TEXT, " +
+                    tableProfile.COLUMN_NAME_P_MY_KEY + " TEXT, " +
+                    tableProfile.COLUMN_NAME_P_THEME + " INTEGER)";
 
     /**SQL DROP scripts*/
     private static final String SQL_DROP_DAILY_QUIZ = "DROP TABLE IF EXISTS " + tableDailyQuiz.TABLE_NAME;
@@ -494,8 +495,52 @@ public class databaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    //GETs all of the records in the DAILY_QUIZ table that are made on a specified date.
+    public Cursor getDailyQuizRecordByDate(String date) {
+        SQLiteDatabase db = getReadableDatabase(); //Obtains read access
+
+        //Returns the following columns
+        String[] projection = {
+                tableDailyQuiz.COLUMN_NAME_DQ_ID,
+                tableDailyQuiz.COLUMN_NAME_DQ_DATE,
+                tableDailyQuiz.COLUMN_NAME_DQ_Q1,
+                tableDailyQuiz.COLUMN_NAME_DQ_Q2,
+                tableDailyQuiz.COLUMN_NAME_DQ_Q3,
+                tableDailyQuiz.COLUMN_NAME_DQ_Q4,
+                tableDailyQuiz.COLUMN_NAME_DQ_Q5,
+                tableDailyQuiz.COLUMN_NAME_DQ_Q6
+        };
+        //Returns records that match the following conditions
+        String selection = "";
+        String[] selectionArgs = new String[1];
+        selection = tableDailyQuiz.COLUMN_NAME_DQ_DATE + " = ?";
+        selectionArgs[0] = date;
+
+        //Sorts the records
+        String sortOrder = tableDailyQuiz.COLUMN_NAME_DQ_ID + " ASC";
+
+        Cursor results;
+        try{
+            results = db.query(
+                    tableDailyQuiz.TABLE_NAME, //Target table (FROM TABLE)
+                    projection, //Projection (SELECT...)
+                    selection, //Selection (WHERE...)
+                    selectionArgs, //Selection arguments (COLUMN = X)
+                    null, //Row grouping?
+                    null, //Filter by row grouping?
+                    sortOrder, //Ordering (ORDER BY)
+                    null //Limiting (LIMIT BY)
+            );
+            System.out.println("Records returned from DAILY_QUIZ.");
+            return results;
+        } catch(SQLiteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     //Updates an existing record in the DAILY_QUIZ table
-    public void updateDailyQuizRecord(int id, int[] newResponses) {
+    public void updateDailyQuizRecord(long id, int[] newResponses) {
         if(newResponses.length == 6) { //Only update the record if there are 6 answers supplied, responding to the 6 questions
             SQLiteDatabase db = getWritableDatabase(); //Obtains write access
 

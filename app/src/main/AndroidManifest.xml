@@ -26,6 +26,8 @@
         <activity android:name=".diaryActivity" />
         <activity android:name=".trackActivity" />
         <activity android:name=".optionsActivity" />
-        <activity android:name=".newDiaryEntryActivity"/>
+        <activity android:name=".newDiaryEntryActivity" />
+        <activity android:name=".dqSubmitted" />
     </application>
+
 </manifest>

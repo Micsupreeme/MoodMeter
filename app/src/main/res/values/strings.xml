@@ -34,4 +34,7 @@
         <item>Classic</item>
         <item>Dark</item>
     </string-array>
+    <string name="lblDQSubmitted">Good Job!</string>
+    <string name="lblDQSubmittedSub">You have updated your daily quiz responses for today.</string>
+    <string name="btnReturn">Main Menu</string>
 </resources>
