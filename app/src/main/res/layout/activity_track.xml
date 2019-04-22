@@ -23,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="handleBackDate"
                 android:text="@string/btnBackDate"
                 android:textSize="36sp" />
 
@@ -46,6 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="handleForwardDate"
                 android:text="@string/btnForwardDate"
                 android:textSize="36sp" />
 
@@ -61,7 +63,7 @@
                 android:id="@+id/lblMood"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:padding="5dp"
@@ -75,7 +77,7 @@
                 android:id="@+id/lblMoodRating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:padding="5dp"
@@ -249,14 +251,33 @@
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/lblTip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_purple"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="@string/lblTip"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
 
         <Button
             android:id="@+id/btnViewDiary"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
             android:background="#4b5dff"
             android:onClick="navigateDiary"
             android:padding="18dp"

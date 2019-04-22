@@ -98,7 +98,7 @@ public class dq6Activity extends AppCompatActivity {
         dbHelp.close();
 
         dbHelp = new databaseHelper(this);
-        Cursor quizzes = dbHelp.getDailyQuizRecord(-1);
+        Cursor quizzes = dbHelp.getDailyQuizRecord(-1, false, -1);
         dbHelp.printDailyQuizRecords(quizzes);
         dbHelp.close();
     }
@@ -112,7 +112,7 @@ public class dq6Activity extends AppCompatActivity {
         dbHelp.close();
 
         dbHelp = new databaseHelper(this);
-        Cursor quizzes = dbHelp.getDailyQuizRecord(-1);
+        Cursor quizzes = dbHelp.getDailyQuizRecord(-1, false, -1);
         dbHelp.printDailyQuizRecords(quizzes);
         dbHelp.close();
     }

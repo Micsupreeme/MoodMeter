@@ -429,7 +429,7 @@ public class databaseHelper extends SQLiteOpenHelper {
     }
 
     //GETs 1 or all of the records from the DAILY_QUIZ table.
-    public Cursor getDailyQuizRecord(int id) {
+    public Cursor getDailyQuizRecord(int id, boolean orderDescending, int limit) {
         boolean hasSpecifiedRecord = false;
         SQLiteDatabase db = getReadableDatabase(); //Obtains read access
 
@@ -454,7 +454,20 @@ public class databaseHelper extends SQLiteOpenHelper {
             selectionArgs[0] = strId;
         }
         //Sorts the records
-        String sortOrder = tableDailyQuiz.COLUMN_NAME_DQ_ID + " ASC";
+        String sortOrder;
+        if(orderDescending) {
+            sortOrder = tableDailyQuiz.COLUMN_NAME_DQ_ID + " DESC";
+        } else {
+            sortOrder = tableDailyQuiz.COLUMN_NAME_DQ_ID + " ASC";
+        }
+
+        //Limits the records
+        String limitByStr;
+        if(limit != -1) {
+            limitByStr = limit + "";
+        } else {
+            limitByStr = null;
+        }
 
         Cursor results;
         if(hasSpecifiedRecord) { //Only include the selection arguments if a single record is being returned
@@ -467,7 +480,7 @@ public class databaseHelper extends SQLiteOpenHelper {
                         null, //Row grouping?
                         null, //Filter by row grouping?
                         sortOrder, //Ordering (ORDER BY)
-                        null //Limiting (LIMIT BY)
+                        limitByStr //Limiting (LIMIT BY)
                 );
                 System.out.println("Single record returned from DAILY_QUIZ.");
                 return results;
@@ -484,7 +497,7 @@ public class databaseHelper extends SQLiteOpenHelper {
                         null, //Row grouping?
                         null, //Filter by row grouping?
                         sortOrder, //Ordering (ORDER BY)
-                        null //Limiting (LIMIT BY)
+                        limitByStr //Limiting (LIMIT BY)
                 );
                 System.out.println("All records returned from DAILY_QUIZ.");
                 return results;

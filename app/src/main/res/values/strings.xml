@@ -37,4 +37,5 @@
     <string name="lblDQSubmitted">Good Job!</string>
     <string name="lblDQSubmittedSub">You have updated your daily quiz responses for today.</string>
     <string name="btnReturn">Main Menu</string>
+    <string name="lblTip">Tip Placeholder</string>
 </resources>
