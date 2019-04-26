@@ -11,10 +11,10 @@ import java.util.Calendar;
 
 public class dq6Activity extends AppCompatActivity {
 
-    //TODO: go to a thank you for submitting screen after submitting
     Intent gotoDQ6;
     int[] dqResponses;
     public static final String EXTRA_MESSAGE = "pebbleinc.MoodMeter.MESSAGE"; //defines the "extra" prefix for sending messages, ensuring that it's unique
+    public static final String SUBMITTED_DOMAIN = "Daily Quiz\nresponses for today.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,10 +86,10 @@ public class dq6Activity extends AppCompatActivity {
             insertDailyQuiz();
         }
 
-        navigateDQSubmitted();
+        navigateSubmitted();
     }
 
-    //Inserts a new daily quiz record because there is no daily quiz record submitted for today
+    //Inserts a new daily quiz record because there is no daily quiz record submittedActivity for today
     private void insertDailyQuiz() {
         databaseHelper dbHelp;
 
@@ -100,6 +100,10 @@ public class dq6Activity extends AppCompatActivity {
         dbHelp = new databaseHelper(this);
         Cursor quizzes = dbHelp.getDailyQuizRecord(-1, false, -1);
         dbHelp.printDailyQuizRecords(quizzes);
+        dbHelp.close();
+
+        dbHelp = new databaseHelper(this);
+        dbHelp.insertDiaryEntryRecord("I updated my Daily Quiz!");
         dbHelp.close();
     }
 
@@ -115,11 +119,16 @@ public class dq6Activity extends AppCompatActivity {
         Cursor quizzes = dbHelp.getDailyQuizRecord(-1, false, -1);
         dbHelp.printDailyQuizRecords(quizzes);
         dbHelp.close();
+
+        dbHelp = new databaseHelper(this);
+        dbHelp.insertDiaryEntryRecord("I updated my Daily Quiz!");
+        dbHelp.close();
     }
 
-    //Navigates to the Daily Quiz Submitted page
-    private void navigateDQSubmitted() {
-        Intent gotoDQSubmitted = new Intent(this, dqSubmitted.class);
-        startActivity(gotoDQSubmitted);
+    //Navigates to the submitted page
+    private void navigateSubmitted() {
+        Intent gotoSubmitted = new Intent(this, submittedActivity.class);
+        gotoSubmitted.putExtra(EXTRA_MESSAGE, SUBMITTED_DOMAIN);
+        startActivity(gotoSubmitted);
     }
 }

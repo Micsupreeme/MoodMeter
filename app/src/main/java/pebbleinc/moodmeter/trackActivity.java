@@ -16,9 +16,10 @@ public class trackActivity extends AppCompatActivity {
     private static final int MINIMUM_DAILY_QUIZ_ID = 1;
     int latestDailyQuizId = 1;
     int currentDailyQuizId = 1;
+    boolean isDisplayingMantra = true;
+    String currentDate;
     String[] dqDetailedFeedback = new String[6];
-
-    //TODO: If all areas are bad then provide tips with the following priority order: Sleep, Diet, Mood, Social, Exercise, Work
+    public static final String EXTRA_MESSAGE = "pebbleinc.MoodMeter.MESSAGE"; //defines the "extra" prefix for sending messages, ensuring that it's unique
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class trackActivity extends AppCompatActivity {
         latestDailyQuizId = getId(quizzes);
         currentDailyQuizId = latestDailyQuizId;
 
-        displayTip(generateMantra(), true);
+        displayTip(generateMantra(), isDisplayingMantra);
         int[] dqResponses = getResponses(quizzes);
         display(getDate(quizzes), interpretResponses(dqResponses));
     }
@@ -81,142 +82,206 @@ public class trackActivity extends AppCompatActivity {
         String[] dqFeedback = new String[6];
 
         try{
-            //Interpret response to question 1
+            //Interpret response to question 1 (General mood)
             switch(dqResponses[0]) {
                 case 1:
                     dqFeedback[0] = "Amazing";
+                    dqDetailedFeedback[0] = "";
                     break;
                 case 2:
                     dqFeedback[0] = "Good";
+                    dqDetailedFeedback[0] = "";
                     break;
                 case 3:
                     dqFeedback[0] = "Okay";
+                    dqDetailedFeedback[0] = "";
                     break;
                 case 4:
                     dqFeedback[0] = "Inadequate";
+                    dqDetailedFeedback[0] = "Sometimes it is OK not to be OK.";
                     break;
                 case 5:
                     dqFeedback[0] = "Lousy";
+                    dqDetailedFeedback[0] = "Sorry you are feeling that way; perhaps see the Helplines for assistance.";
                     break;
                 default:
                     dqFeedback[0] = "--";
+                    dqDetailedFeedback[0] = "--";
                     break;
             }
 
-            //Interpret response to question 2
+            //Interpret response to question 2 (sleep)
             switch(dqResponses[1]) {
                 case 1:
                     dqFeedback[1] = "Not Enough";
+                    dqDetailedFeedback[1] = "Try going to bed a little earlier and turn off screens.";
                     break;
                 case 2:
                     dqFeedback[1] = "Insufficient";
+                    dqDetailedFeedback[1] = "Try going to bed a little earlier and turn off screens.";
                     break;
                 case 3:
                     dqFeedback[1] = "Ideal";
+                    dqDetailedFeedback[1] = "";
                     break;
                 case 4:
                     dqFeedback[1] = "Excessive";
+                    dqDetailedFeedback[1] = "Try waking up a little earlier; you will feel better.";
                     break;
                 case 5:
                     dqFeedback[1] = "Too Much";
+                    dqDetailedFeedback[1] = "Try waking up a little earlier; you will feel better.";
                     break;
                 default:
                     dqFeedback[1] = "--";
+                    dqDetailedFeedback[1] = "--";
                     break;
             }
 
-            //Interpret response to question 3
+            //Interpret response to question 3 (Work)
             switch(dqResponses[2]) {
                 case 1:
                     dqFeedback[2] = "None";
+                    dqDetailedFeedback[2] = "Try to apply yourself within a designated work time.";
                     break;
                 case 2:
                     dqFeedback[2] = "Not Much";
+                    dqDetailedFeedback[2] = "Try to apply yourself within a designated work time.";
                     break;
                 case 3:
                     dqFeedback[2] = "Ideal";
+                    dqDetailedFeedback[2] = "";
                     break;
                 case 4:
                     dqFeedback[2] = "Excessive";
+                    dqDetailedFeedback[2] = "Try setting aside some time for yourself to relax.";
                     break;
                 case 5:
                     dqFeedback[2] = "Too Much";
+                    dqDetailedFeedback[2] = "Try setting aside some time for yourself to relax.";
                     break;
                 default:
                     dqFeedback[2] = "--";
                     break;
             }
 
-            //Interpret response to question 4
+            //Interpret response to question 4 (Healthy Eating)
             switch(dqResponses[3]) {
                 case 1:
                     dqFeedback[3] = "Amazing";
+                    dqDetailedFeedback[3] = "";
                     break;
                 case 2:
                     dqFeedback[3] = "Good";
+                    dqDetailedFeedback[3] = "";
                     break;
                 case 3:
                     dqFeedback[3] = "Okay";
+                    dqDetailedFeedback[3] = "Consider eating a little more fruit and vegetables.";
                     break;
                 case 4:
                     dqFeedback[3] = "Inadequate";
+                    dqDetailedFeedback[3] = "Consider eating a little more fruit and vegetables.";
                     break;
                 case 5:
                     dqFeedback[3] = "Lousy";
+                    dqDetailedFeedback[3] = "Try to eat more fruit and vegetables and substitute sugary drinks for water.";
                     break;
                 default:
                     dqFeedback[3] = "--";
+                    dqDetailedFeedback[3] = "--";
                     break;
             }
 
 
-            //Interpret response to question 5
+            //Interpret response to question 5 (Exercise)
             switch(dqResponses[4]) {
                 case 1:
                     dqFeedback[4] = "Incredible";
+                    dqDetailedFeedback[4] = "";
                     break;
                 case 2:
                     dqFeedback[4] = "Excellent";
+                    dqDetailedFeedback[4] = "";
                     break;
                 case 3:
                     dqFeedback[4] = "Great";
+                    dqDetailedFeedback[4] = "";
                     break;
                 case 4:
                     dqFeedback[4] = "Improvable";
+                    dqDetailedFeedback[4] = "Walking is a good way to help clear your mind.";
                     break;
                 case 5:
                     dqFeedback[4] = "Not Enough";
+                    dqDetailedFeedback[4] = "Jogging is a good way to burn calories and clear your mind.";
                     break;
                 default:
                     dqFeedback[4] = "--";
+                    dqDetailedFeedback[4] = "--";
                     break;
             }
 
-            //Interpret response to question 6
+            //Interpret response to question 6 (Social)
             switch(dqResponses[5]) {
                 case 1:
                     dqFeedback[5] = "Amazing";
+                    dqDetailedFeedback[5] = "";
                     break;
                 case 2:
                     dqFeedback[5] = "Good";
+                    dqDetailedFeedback[5] = "";
                     break;
                 case 3:
                     dqFeedback[5] = "Okay";
+                    dqDetailedFeedback[5] = "Phone a friend or a family member online or on the phone. You’ll make your day and their day better.";
                     break;
                 case 4:
                     dqFeedback[5] = "Inadequate";
+                    dqDetailedFeedback[5] = "Phone a friend or a family member online or on the phone. You’ll make your day and their day better.";
                     break;
                 case 5:
                     dqFeedback[5] = "Lousy";
+                    dqDetailedFeedback[5] = "Phone a friend or a family member online or on the phone. You’ll make your day and their day better.";
                     break;
                 default:
                     dqFeedback[5] = "--";
+                    dqDetailedFeedback[5] = "--";
                     break;
             }
         } catch(NullPointerException npe) {
             System.out.println("No records found");
         }
+
+        displayTip(prioritiseTip(), isDisplayingMantra);
         return dqFeedback;
+    }
+
+    //Prioritises feedback to show in the tip box, returns a mantra if there's no feedback to show
+    private String prioritiseTip() {
+        isDisplayingMantra = false;
+        try {
+            if (!dqDetailedFeedback[1].equals("") && !dqDetailedFeedback[1].equals("--")) {
+                return dqDetailedFeedback[1]; //Sleep
+            } else if (!dqDetailedFeedback[3].equals("") && !dqDetailedFeedback[3].equals("--")) {
+                return dqDetailedFeedback[3]; //Diet
+            } else if (!dqDetailedFeedback[5].equals("") && !dqDetailedFeedback[5].equals("--")) {
+                return dqDetailedFeedback[5]; //Social
+            } else if (!dqDetailedFeedback[4].equals("") && !dqDetailedFeedback[4].equals("--")) {
+                return dqDetailedFeedback[4]; //Exercise
+            } else if (!dqDetailedFeedback[2].equals("") && !dqDetailedFeedback[2].equals("--")) {
+                return dqDetailedFeedback[2]; //Work
+            } else if (!dqDetailedFeedback[0].equals("") && !dqDetailedFeedback[0].equals("--")) {
+                return dqDetailedFeedback[0]; //General Mood
+            } else {
+                isDisplayingMantra = true;
+                return generateMantra();
+            }
+        } catch(NullPointerException npe) {
+            System.out.println("Warning: attempted to read blank feedback");
+            isDisplayingMantra = true;
+            return generateMantra();
+        }
     }
 
     //Takes a Cursor and returns the ID
@@ -234,7 +299,8 @@ public class trackActivity extends AppCompatActivity {
     private String getDate(Cursor quizzes) {
         try {
             quizzes.moveToFirst();
-            return quizzes.getString(quizzes.getColumnIndexOrThrow(databaseContract.tableDailyQuiz.COLUMN_NAME_DQ_DATE));
+            currentDate = quizzes.getString(quizzes.getColumnIndexOrThrow(databaseContract.tableDailyQuiz.COLUMN_NAME_DQ_DATE));
+            return currentDate;
         } catch(Exception e) {
             System.out.println("No records found");
             return null;
@@ -297,6 +363,7 @@ public class trackActivity extends AppCompatActivity {
     //Navigates to the Diary page
     public void navigateDiary(View view) {
         Intent gotoDiary = new Intent(this, diaryActivity.class);
+        gotoDiary.putExtra(EXTRA_MESSAGE, currentDate);
         startActivity(gotoDiary);
     }
 

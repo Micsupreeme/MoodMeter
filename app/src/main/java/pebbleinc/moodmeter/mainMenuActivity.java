@@ -2,6 +2,7 @@ package pebbleinc.moodmeter;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +11,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
-
-//todo: catch "android.database.sqlite.SQLiteException: no such table" in case database is bad, cause it to re-create
 
 public class mainMenuActivity extends AppCompatActivity {
 

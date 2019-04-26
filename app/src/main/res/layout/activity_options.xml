@@ -51,6 +51,7 @@
             android:background="@android:color/white"
             android:ems="10"
             android:inputType="textPersonName"
+            android:maxLength="13"
             android:padding="5dp"
             android:singleLine="true"
             android:textSize="20sp" />
@@ -125,6 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="#6fb166"
+            android:onClick="updateProfile"
             android:padding="18dp"
             android:text="@string/btnOptionsSubmit"
             android:textColor="@android:color/white"
@@ -136,6 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#bb4344"
+            android:onClick="confirmResetHighScores"
             android:padding="18dp"
             android:text="@string/btnOptionsClear"
             android:textColor="@android:color/white"

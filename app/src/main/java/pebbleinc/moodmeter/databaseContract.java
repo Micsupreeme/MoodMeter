@@ -23,7 +23,8 @@ final class databaseContract {
     public static class tableDiaryEntry implements BaseColumns {
         public static final String TABLE_NAME = "DIARY_ENTRY";
         public static final String COLUMN_NAME_DE_ID = "DE_ID";
-        public static final String COLUMN_NAME_DE_DATETIME = "DE_DATETIME";
+        public static final String COLUMN_NAME_DE_DATE = "DE_DATE";
+        public static final String COLUMN_NAME_DE_TIME = "DE_TIME";
         public static final String COLUMN_NAME_DE_BODY = "DE_BODY";
     }
 

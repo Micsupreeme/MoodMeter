@@ -60,7 +60,8 @@ public class databaseHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_DIARY_ENTRY =
             "CREATE TABLE " + tableDiaryEntry.TABLE_NAME + " (" +
                     tableDiaryEntry.COLUMN_NAME_DE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    tableDiaryEntry.COLUMN_NAME_DE_DATETIME + " TEXT, " +
+                    tableDiaryEntry.COLUMN_NAME_DE_DATE + " TEXT, " +
+                    tableDiaryEntry.COLUMN_NAME_DE_TIME + " TEXT, " +
                     tableDiaryEntry.COLUMN_NAME_DE_BODY + " TEXT)";
     private static final String SQL_CREATE_PROFILE =
             "CREATE TABLE " + tableProfile.TABLE_NAME + " (" +
@@ -178,6 +179,47 @@ public class databaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    //GETs 1 or all of the records from the PROFILE table with the specified password
+    //(used for authentication).
+    public Cursor getProfileRecordByPassword(String hashValue) {
+        SQLiteDatabase db = getReadableDatabase(); //Obtains read access
+
+        //Returns the following columns
+        String[] projection = {
+                tableProfile.COLUMN_NAME_P_ID,
+                tableProfile.COLUMN_NAME_P_NAME,
+                tableProfile.COLUMN_NAME_P_MY_KEY,
+                tableProfile.COLUMN_NAME_P_THEME
+        };
+        //Returns records that match the following conditions
+        String selection = "";
+        String[] selectionArgs = new String[1];
+        selection = tableProfile.COLUMN_NAME_P_MY_KEY + " = ?";
+        selectionArgs[0] = hashValue;
+
+        //Sorts the records
+        String sortOrder = tableProfile.COLUMN_NAME_P_ID + " ASC";
+
+        Cursor results;
+        try{
+            results = db.query(
+                    tableProfile.TABLE_NAME, //Target table (FROM TABLE)
+                    projection, //Projection (SELECT...)
+                    selection, //Selection (WHERE...)
+                    selectionArgs, //Selection arguments (COLUMN = X)
+                    null, //Row grouping?
+                    null, //Filter by row grouping?
+                    sortOrder, //Ordering (ORDER BY)
+                    null //Limiting (LIMIT BY)
+            );
+            System.out.println("Single record returned from PROFILE.");
+            return results;
+        } catch(SQLiteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     //Inserts a record into the PROFILE table
     public void insertProfileRecord(String name, String myKey, int theme) {
         SQLiteDatabase db = getWritableDatabase(); //Obtains write access
@@ -241,12 +283,13 @@ public class databaseHelper extends SQLiteOpenHelper {
     }
 
     //Prints records that have been retrieved from the PROFILE table to the console
-    public void printProfileRecords(Cursor records) {
+    //Returns true if records were printed, false otherwise
+    public boolean printProfileRecords(Cursor records) {
         try {
             records.moveToFirst();
         } catch(NullPointerException e) {
             System.out.println("No records to print from PROFILE.");
-            return;
+            return false;
         }
         System.out.println("P_ID\t\tP_NAME\t\tP_MY_KEY\t\tP_THEME");
         List<Long> pIds = new ArrayList<>();
@@ -266,9 +309,11 @@ public class databaseHelper extends SQLiteOpenHelper {
                 System.out.println(pId + "\t\t\t" + pName + "\t\t" + pMyKey + "\t\t\t" + pTheme);
             } catch(CursorIndexOutOfBoundsException cioobe) {
                 System.out.println("Warning: attempted to read an empty record.");
+                return false;
             }
         } while (records.moveToNext());
         System.out.println("Printed records from PROFILE.");
+        return true;
     }
 
     /**Functions for the DIARY_ENTRY table*/
@@ -279,7 +324,8 @@ public class databaseHelper extends SQLiteOpenHelper {
 
         //Defines values for the INSERT INTO operation
         ContentValues values = new ContentValues();
-        values.put(tableDiaryEntry.COLUMN_NAME_DE_DATETIME, DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
+        values.put(tableDiaryEntry.COLUMN_NAME_DE_DATE, DateFormat.getDateInstance().format(Calendar.getInstance().getTime()));
+        values.put(tableDiaryEntry.COLUMN_NAME_DE_TIME, DateFormat.getTimeInstance().format(Calendar.getInstance().getTime()));
         values.put(tableDiaryEntry.COLUMN_NAME_DE_BODY, body);
 
         //Insert the new row with the next automatically determined auto-increment SCORE_ID
@@ -296,7 +342,8 @@ public class databaseHelper extends SQLiteOpenHelper {
         //Returns the following columns
         String[] projection = {
                 tableDiaryEntry.COLUMN_NAME_DE_ID,
-                tableDiaryEntry.COLUMN_NAME_DE_DATETIME,
+                tableDiaryEntry.COLUMN_NAME_DE_DATE,
+                tableDiaryEntry.COLUMN_NAME_DE_TIME,
                 tableDiaryEntry.COLUMN_NAME_DE_BODY
         };
         //Returns records that match the following conditions
@@ -350,6 +397,54 @@ public class databaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    //GETs all of the records from the DIARY_ENTRY table by date.
+    public Cursor getDiaryEntryRecordByDate(String date) {
+        try {
+            if(!date.isEmpty()) {
+                SQLiteDatabase db = getReadableDatabase(); //Obtains read access
+
+                //Returns the following columns
+                String[] projection = {
+                        tableDiaryEntry.COLUMN_NAME_DE_ID,
+                        tableDiaryEntry.COLUMN_NAME_DE_DATE,
+                        tableDiaryEntry.COLUMN_NAME_DE_TIME,
+                        tableDiaryEntry.COLUMN_NAME_DE_BODY
+                };
+
+                //Returns records that match the following conditions
+                String selection = "";
+                String[] selectionArgs = new String[1];
+
+                selection = tableDiaryEntry.COLUMN_NAME_DE_DATE + " = ?";
+                selectionArgs[0] = date;
+
+                //Sorts the records
+                String sortOrder = tableDiaryEntry.COLUMN_NAME_DE_ID + " ASC";
+
+                Cursor results; //Only include the selection arguments if a single record is being returned
+                try{
+                    results = db.query(
+                            tableDiaryEntry.TABLE_NAME, //Target table (FROM TABLE)
+                            projection, //Projection (SELECT...)
+                            selection, //Selection (WHERE...)
+                            selectionArgs, //Selection arguments (COLUMN = X)
+                            null, //Row grouping?
+                            null, //Filter by row grouping?
+                            sortOrder, //Ordering (ORDER BY)
+                            null //Limiting (LIMIT BY)
+                    );
+                    System.out.println("Records returned from DIARY_ENTRY.");
+                    return results;
+                } catch(SQLiteException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch(NullPointerException npe) {
+            System.out.println("No data to display");
+        }
+        return null;
+    }
+
     //Deletes an existing record in the DIARY_ENTRY table
     public void deleteDiaryEntryRecord(int id) {
         boolean hasSpecifiedRecord = false;
@@ -374,32 +469,76 @@ public class databaseHelper extends SQLiteOpenHelper {
         System.out.println("Record " + id + " deleted from DIARY_ENTRY.");
     }
 
+    /**
+     * Retrieves a single column for all of the records in the DIARY_ENTRY table of the
+     * local database as an ArrayList of String values.
+     * @param records A Cursor (results data set).
+     * @param columnIndex A value that indicates which column to retrieve as a list.
+     *                    Values match the position of the columns when viewing the table
+     *                    (e.g. DE_ID is the first column so it is specified with 0).
+     * @return An ArrayList of all of the values in the DIARY_ENTRY table for a single column.
+     */
+    public ArrayList<String> getDiaryEntryColumnAsList(Cursor records, int columnIndex) {
+        ArrayList<String> values = new ArrayList<>();
+        String column;
+
+        switch(columnIndex) {
+            case 0:
+                column = tableDiaryEntry.COLUMN_NAME_DE_ID;
+                break;
+            case 1:
+                column = tableDiaryEntry.COLUMN_NAME_DE_DATE;
+                break;
+            case 2:
+                column = tableDiaryEntry.COLUMN_NAME_DE_TIME;
+                break;
+            case 3:
+                column = tableDiaryEntry.COLUMN_NAME_DE_BODY;
+                break;
+            default:
+                column = tableDiaryEntry.COLUMN_NAME_DE_ID;
+                break;
+        }
+
+        records.moveToFirst();
+        while(records.moveToNext()) {
+            values.add(records.getString(records.getColumnIndexOrThrow(column)));
+        }
+        return values;
+    }
+
     //Prints records that have been retrieved from the DIARY_ENTRY table to the console
-    public void printDiaryEntryRecords(Cursor records) {
+    //Returns true if records were printed, false otherwise
+    public boolean printDiaryEntryRecords(Cursor records) {
         try {
             records.moveToFirst();
         } catch(NullPointerException e) {
             System.out.println("No records to print from DIARY_ENTRY.");
-            return;
+            return false;
         }
-        System.out.println("DE_ID\t\tDE_DATETIME\t\t\t\t\tDE_BODY");
+        System.out.println("DE_ID\t\tDE_DATE\t\t\tDE_TIME\t\t\tDE_BODY");
         List<Long> deIds = new ArrayList<>();
-        List<String> deDatetimes = new ArrayList<>();
+        List<String> deDates = new ArrayList<>();
+        List<String> deTimes = new ArrayList<>();
         List<String> deBodies = new ArrayList<>();
         do {
             try{
                 long deId = records.getLong(records.getColumnIndexOrThrow(tableDiaryEntry.COLUMN_NAME_DE_ID));
                 deIds.add(deId);
-                String deDatetime = records.getString(records.getColumnIndexOrThrow(tableDiaryEntry.COLUMN_NAME_DE_DATETIME));
-                deDatetimes.add(deDatetime);
+                String deDate = records.getString(records.getColumnIndexOrThrow(tableDiaryEntry.COLUMN_NAME_DE_DATE));
+                deDates.add(deDate);
+                String deTime = records.getString(records.getColumnIndexOrThrow(tableDiaryEntry.COLUMN_NAME_DE_TIME));
+                deTimes.add(deTime);
                 String deBody = records.getString(records.getColumnIndexOrThrow(tableDiaryEntry.COLUMN_NAME_DE_BODY));
                 deBodies.add(deBody);
-                System.out.println(deId + "\t\t\t" + deDatetime + "\t\t" + deBody);
+                System.out.println(deId + "\t\t\t" + deDate + "\t\t" + deTime + "\t\t" + deBody);
             } catch(CursorIndexOutOfBoundsException cioobe) {
                 System.out.println("Warning: attempted to read an empty record.");
+                return false;
             }
         } while (records.moveToNext());
         System.out.println("Printed records from DIARY_ENTRY.");
+        return true;
     }
 
     /**Functions for the DAILY_QUIZ table*/
@@ -607,12 +746,13 @@ public class databaseHelper extends SQLiteOpenHelper {
     }
 
     //Prints records that have been retrieved from the DAILY_QUIZ table to the console
-    public void printDailyQuizRecords(Cursor records) {
+    //Returns true if records were printed, false otherwise
+    public boolean printDailyQuizRecords(Cursor records) {
         try {
             records.moveToFirst();
         } catch(NullPointerException e) {
             System.out.println("No records to print from DAILY_QUIZ.");
-            return;
+            return false;
         }
         System.out.println("DQ_ID\t\tDQ_DATE\t\t\t\tDQ_Q1\t\tDQ_Q2\t\tDQ_Q3\t\tDQ_Q4\t\tDQ_Q5\t\tDQ_Q6");
         List<Long> dqIds = new ArrayList<>();
@@ -644,8 +784,10 @@ public class databaseHelper extends SQLiteOpenHelper {
                 System.out.println(dqId + "\t\t\t" + dqDate + "\t\t" + dqQ1 + "\t\t\t" + dqQ2 + "\t\t\t" + dqQ3 + "\t\t\t" + dqQ4 + "\t\t\t" + dqQ5 + "\t\t\t" + dqQ6);
             } catch(CursorIndexOutOfBoundsException cioobe) {
                 System.out.println("Warning: attempted to read an empty record.");
+                return false;
             }
         } while (records.moveToNext());
         System.out.println("Printed records from DAILY_QUIZ.");
+        return true;
     }
 }

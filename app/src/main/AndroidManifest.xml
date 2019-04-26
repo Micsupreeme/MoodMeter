@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mainMenuActivity">
+        <activity android:name=".authenticateActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +27,8 @@
         <activity android:name=".trackActivity" />
         <activity android:name=".optionsActivity" />
         <activity android:name=".newDiaryEntryActivity" />
-        <activity android:name=".dqSubmitted" />
+        <activity android:name=".submittedActivity" />
+        <activity android:name=".mainMenuActivity"/>
     </application>
 
 </manifest>

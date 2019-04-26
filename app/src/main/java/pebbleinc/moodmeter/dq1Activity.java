@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-
 public class dq1Activity extends AppCompatActivity {
 
     Intent gotoDQ2;
